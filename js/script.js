@@ -74,9 +74,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.6 });
   counters.forEach(c => counterObserver.observe(c));
 
-  /* ---------- Click-to-play YouTube embeds (stays on-site) ---------- */
+  /* ---------- Click-to-play YouTube embeds (stays on-site, one at a time) ---------- */
+  let playingFrame = null;
+
+  const stopFrame = (frame) => {
+    frame.innerHTML = frame.dataset.originalHtml;
+    frame.dataset.playing = '';
+  };
+
   document.querySelectorAll('.video-frame[data-yt]').forEach(frame => {
+    frame.dataset.originalHtml = frame.innerHTML;
+
     frame.addEventListener('click', () => {
+      if (frame.dataset.playing) return;
+
+      if (playingFrame && playingFrame !== frame) stopFrame(playingFrame);
+
       const id = frame.getAttribute('data-yt');
       const iframe = document.createElement('iframe');
       iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
@@ -85,7 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
       iframe.setAttribute('title', 'YouTube video player');
       frame.innerHTML = '';
       frame.appendChild(iframe);
-    }, { once: true });
+
+      frame.dataset.playing = '1';
+      playingFrame = frame;
+    });
   });
 
 });
