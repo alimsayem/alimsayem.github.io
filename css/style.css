@@ -324,17 +324,15 @@ main, header, footer { position: relative; z-index: 1; }
 .hero-photo {
   position: relative;
   z-index: 1;
-  width: min(360px, 80vw);
-  aspect-ratio: 1 / 1.08;
-  border-radius: 32px;
-  overflow: hidden;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-glow);
+  width: min(380px, 80vw);
+  display: flex;
+  justify-content: center;
 }
 .hero-photo img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: top center;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.35));
 }
 
 .scroll-cue {
@@ -498,28 +496,40 @@ main, header, footer { position: relative; z-index: 1; }
   gap: 16px;
 }
 .gallery-grid a {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--radius-sm);
   overflow: hidden;
   border: 1px solid var(--glass-border);
   position: relative;
   aspect-ratio: 4/3;
   background: var(--bg-2);
+  padding: 8px;
 }
 .gallery-grid img {
   width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform .5s ease, filter .5s ease;
+  object-fit: contain;
+  transition: transform .4s ease, filter .4s ease;
 }
 .gallery-grid a::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.55));
+  content: "🔍";
+  position: absolute;
+  bottom: 10px; right: 10px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  background: rgba(0,0,0,0.55);
+  border: 1px solid var(--glass-border);
   opacity: 0;
-  transition: opacity .35s ease;
+  transform: translateY(6px);
+  transition: opacity .3s ease, transform .3s ease;
 }
-.gallery-grid a:hover img { transform: scale(1.08); }
-.gallery-grid a:hover::after { opacity: 1; }
+.gallery-grid a:hover img { transform: scale(1.04); }
+.gallery-grid a:hover::after { opacity: 1; transform: translateY(0); }
 
 /* ================= JUDDHO71 ================= */
 .j71-grid {
